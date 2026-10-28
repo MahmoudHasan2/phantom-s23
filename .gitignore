@@ -1,0 +1,7 @@
+node_modules
+dist
+public/mediapipe/wasm
+public/models/*.task
+*.webm
+*.mp4
+smoke-output

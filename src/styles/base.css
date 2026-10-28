@@ -1,0 +1,73 @@
+:root {
+  --bg: #020406;
+  --panel: rgba(8, 18, 24, 0.86);
+  --panel-solid: #08131a;
+  --line: rgba(120, 220, 255, 0.18);
+  --line-strong: rgba(120, 220, 255, 0.45);
+  --text: #e6f7ff;
+  --dim: rgba(200, 235, 255, 0.65);
+  --faint: rgba(200, 235, 255, 0.4);
+  --accent: #58e1ff;
+  --accent-2: #9ff3ff;
+  --ok: #3ee6a0;
+  --warn: #ffc857;
+  --bad: #ff5d73;
+  --radius: 12px;
+  --font: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Cascadia Mono', Consolas, 'SFMono-Regular', monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+button,
+select,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 5px;
+  border-radius: 4px;
+  user-select: all;
+}
+
+.fatal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 40px;
+  color: var(--bad);
+  font-size: 18px;
+  text-align: center;
+}

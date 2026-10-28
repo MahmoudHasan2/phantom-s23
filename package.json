@@ -1,0 +1,30 @@
+{
+  "name": "phantom-s23",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Interactive camera-composited holographic smartphone experience (Three.js + MediaPipe Hand Landmarker)",
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup-assets.mjs",
+    "postinstall": "node scripts/setup-assets.mjs --wasm-only",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:smoke": "node tests/smoke/smoke.mjs",
+    "test:all": "npm run test && npm run build && npm run test:smoke"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "0.10.21",
+    "three": "0.169.0"
+  },
+  "devDependencies": {
+    "puppeteer-core": "23.11.1",
+    "vite": "5.4.21",
+    "vitest": "2.1.9"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

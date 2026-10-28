@@ -1,0 +1,494 @@
+.ui-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ui-layer > * {
+  pointer-events: auto;
+}
+
+.ui-layer > .feedback,
+.ui-layer > .countdown,
+.ui-layer > .present-hint {
+  pointer-events: none;
+}
+
+/* ---- Buttons ----------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: rgba(88, 225, 255, 0.08);
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  background: rgba(88, 225, 255, 0.18);
+  border-color: var(--accent);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, #4fd7f7, #1fa9d0);
+  color: #021015;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #7ae6ff, #33bde3);
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.btn.danger {
+  border-color: rgba(255, 93, 115, 0.5);
+}
+
+.btn.danger:hover {
+  background: rgba(255, 93, 115, 0.15);
+  border-color: var(--bad);
+}
+
+.btn.big {
+  padding: 12px 18px;
+  font-size: 15px;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  border-color: var(--accent);
+  background: rgba(88, 225, 255, 0.12);
+}
+
+.icon-btn.small {
+  width: 26px;
+  height: 26px;
+  font-size: 11px;
+}
+
+/* ---- Dock -------------------------------------------------------------- */
+.dock {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  z-index: 20;
+  transition: opacity 0.3s;
+}
+
+.dock-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+}
+
+.dock-btn {
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.dock-btn:hover {
+  color: var(--text);
+  background: rgba(88, 225, 255, 0.1);
+}
+
+.dock-btn.active {
+  color: var(--accent-2);
+  border-color: var(--line-strong);
+  background: rgba(88, 225, 255, 0.1);
+}
+
+.dock-btn.recording {
+  color: #fff;
+  background: rgba(255, 93, 115, 0.35);
+  border-color: var(--bad);
+}
+
+.status-row {
+  font-family: var(--mono);
+  font-size: 11px;
+  align-items: center;
+}
+
+.chip-status {
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--faint);
+  border: 1px solid transparent;
+}
+
+.chip-status.ok {
+  color: var(--ok);
+}
+
+.chip-status.warn {
+  color: var(--warn);
+}
+
+.chip-status.bad {
+  color: var(--bad);
+  border-color: rgba(255, 93, 115, 0.4);
+}
+
+.dock-select,
+.camera-select,
+.field select,
+.field input[type='text'] {
+  background: var(--panel-solid);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 6px 8px;
+  max-width: 100%;
+}
+
+.camera-select {
+  width: 100%;
+  padding: 9px 10px;
+  margin-top: 6px;
+}
+
+.dock-select {
+  max-width: 220px;
+  font-size: 12px;
+}
+
+/* ---- Side panels -------------------------------------------------------- */
+.panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(380px, 92vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border-left: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  transform: translateX(105%);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 25;
+  right: 0;
+}
+
+.panel.open {
+  transform: none;
+}
+
+.calibration-panel {
+  right: auto;
+  left: 0;
+  border-left: 0;
+  border-right: 1px solid var(--line);
+  transform: translateX(-105%);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px 24px;
+}
+
+.section {
+  border-bottom: 1px solid var(--line);
+  padding: 6px 0 12px;
+}
+
+.section summary {
+  cursor: pointer;
+  padding: 8px 0;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  list-style: none;
+}
+
+.section summary::before {
+  content: '▸ ';
+  color: var(--accent);
+}
+
+.section[open] summary::before {
+  content: '▾ ';
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  margin: 10px 0;
+}
+
+.field label,
+.field-label {
+  font-size: 12.5px;
+  color: var(--dim);
+}
+
+.field-label {
+  display: block;
+  margin-top: 8px;
+}
+
+.field-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.field-input input[type='range'] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.field-input output {
+  min-width: 46px;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent-2);
+}
+
+.field-toggle {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.field-toggle .help {
+  grid-column: 1 / -1;
+}
+
+.field-toggle input[type='checkbox'] {
+  width: 38px;
+  height: 20px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.field input[type='text'] {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.help {
+  font-size: 11.5px;
+  color: var(--faint);
+  line-height: 1.5;
+}
+
+.fine-print {
+  font-size: 11px;
+  color: var(--faint);
+  line-height: 1.55;
+  margin-top: 18px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.chip {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  background: rgba(88, 225, 255, 0.12);
+}
+
+/* ---- Calibration ------------------------------------------------------- */
+.meter {
+  position: relative;
+  height: 14px;
+  margin: 8px 0;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: visible;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 7px;
+  background: var(--accent);
+  transition: width 0.06s linear;
+}
+
+.meter-fill.active {
+  background: var(--bad);
+}
+
+.meter-mark {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+}
+
+.meter-mark.on {
+  background: #ffd400;
+}
+
+.meter-mark.off {
+  background: #ff9f1c;
+}
+
+.readout {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--accent-2);
+  white-space: pre-wrap;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-height: 58px;
+}
+
+.cal-result {
+  font-size: 12.5px;
+  color: var(--text);
+  min-height: 20px;
+}
+
+/* ---- Modal ------------------------------------------------------------- */
+.modal {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 60;
+}
+
+.modal.open {
+  display: grid;
+}
+
+.modal-card {
+  width: min(680px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  padding: 22px;
+  border-radius: 16px;
+  background: var(--panel-solid);
+  border: 1px solid var(--line-strong);
+}
+
+.modal-card h2 {
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+
+.modal-card .preview {
+  width: 100%;
+  max-height: 50vh;
+  background: #000;
+  border-radius: 10px;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  font-size: 13px;
+  margin: 12px 0;
+}
+
+.meta dt {
+  color: var(--dim);
+}
+
+.meta dd {
+  margin: 0;
+  font-family: var(--mono);
+}
+
+/* ---- Presentation mode: hide all developer chrome ----------------------- */
+body.presentation .dock,
+body.presentation .panel,
+body.presentation .debug-overlay {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .dock-btn {
+    padding: 6px 7px;
+    font-size: 11.5px;
+  }
+}

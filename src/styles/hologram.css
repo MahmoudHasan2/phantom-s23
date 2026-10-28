@@ -1,0 +1,290 @@
+/* Stage: the WebGL canvas holds camera + hologram + cursor (everything recorded). */
+.stage {
+  position: absolute;
+  inset: 0;
+  background: #000;
+}
+
+.gl-canvas,
+.debug-overlay {
+  position: absolute;
+  display: block;
+  touch-action: none;
+}
+
+.gl-canvas {
+  cursor: crosshair;
+}
+
+.debug-overlay {
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* The <video> only feeds the WebGL texture; it is never shown directly. */
+.camera-video {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.presentation .gl-canvas {
+  cursor: none;
+}
+
+/* ---- Start screen ----------------------------------------------------- */
+.start-screen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at 60% 40%, rgba(20, 70, 90, 0.35), rgba(0, 0, 0, 0.92) 70%);
+  z-index: 40;
+  transition: opacity 0.5s ease;
+}
+
+.start-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.start-card {
+  width: min(520px, calc(100vw - 32px));
+  padding: 36px 36px 28px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(10, 28, 36, 0.9), rgba(4, 10, 14, 0.94));
+  box-shadow: 0 0 80px rgba(88, 225, 255, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  color: var(--accent-2);
+  text-shadow: 0 0 18px rgba(88, 225, 255, 0.55);
+}
+
+.brand-mark {
+  width: 18px;
+  height: 34px;
+  border: 2px solid var(--accent);
+  border-radius: 5px;
+  box-shadow: 0 0 14px rgba(88, 225, 255, 0.7), inset 0 0 8px rgba(88, 225, 255, 0.5);
+}
+
+.tagline {
+  margin: 8px 0 22px;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+}
+
+.steps {
+  margin: 0 0 22px;
+  padding-left: 20px;
+  color: var(--dim);
+  line-height: 1.7;
+}
+
+.start-status {
+  min-height: 22px;
+  margin-top: 14px;
+  color: var(--dim);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.start-status.error {
+  color: var(--bad);
+  line-height: 1.5;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Recording countdown / indicator ------------------------------------ */
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 22vh;
+  font-weight: 200;
+  color: var(--accent-2);
+  text-shadow: 0 0 40px rgba(88, 225, 255, 0.8);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 50;
+}
+
+.countdown.show {
+  animation: count 1s ease-out forwards;
+}
+
+@keyframes count {
+  0% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+.rec-indicator {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 93, 115, 0.5);
+  font-family: var(--mono);
+  z-index: 45;
+}
+
+.rec-indicator.show {
+  display: flex;
+}
+
+.rec-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bad);
+  animation: blink 1s steps(2) infinite;
+}
+
+.rec-indicator.paused .rec-dot {
+  animation: none;
+  background: var(--warn);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* ---- Feedback labels --------------------------------------------------- */
+.feedback {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.feedback-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  color: var(--accent-2);
+  background: rgba(2, 14, 20, 0.62);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+  animation: fb-in 0.2s ease-out;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  max-width: min(720px, 90vw);
+}
+
+.feedback-item.notice {
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+.feedback-item .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  flex: none;
+}
+
+.feedback-item.warn {
+  border-color: rgba(255, 200, 87, 0.45);
+}
+
+.feedback-item.warn .dot {
+  background: var(--warn);
+  box-shadow: 0 0 8px var(--warn);
+}
+
+.feedback-item.out {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+@keyframes fb-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.present-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 35;
+}
+
+.present-hint.show {
+  animation: hint 3.5s ease forwards;
+}
+
+@keyframes hint {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
